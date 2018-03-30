@@ -1,0 +1,119 @@
+<div ng-include="'views/partials/user.header.html'"></div>
+
+<div class="container">
+    <md-content layout-padding class="catchForm" layout-align="center center">
+        <div class="fishForm" ng-cloak class="md-inline-form" ng-mouseenter="formMessage=true" ng-mouseleave="formMessage=false"
+            layout-align="center center" md-no-flicker>
+            <form layout-align="center center">
+                <div layout-gt-sm="row" layout-align="center center">
+                    <md-input-container>
+                        <label>Date</label>
+                        <md-datepicker ng-model="vm.job.date" name="dateField"></md-datepicker>
+                    </md-input-container>
+                    <md-input-container>
+                        <div>
+                            <label>Company</label>
+                            <input name="company" ng-model="vm.job.company">
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <div>
+                            <label>Position</label>
+                            <input name="position" ng-model="vm.job.position" md-maxlength="2">
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row" layout-align="center center">
+                    <md-input-container>
+                        <md-select ng-model="action" placeholder="Action">
+                            <md-option ng-value="opt" ng-repeat="action in vm.job.list">{{action}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <div>
+                            <label>Contact</label>
+                            <input name="contact" ng-model="vm.job.contact">
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <div>
+                            <label>Email</label>
+                            <input name="email" ng-model="vm.job.email">
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <div>
+                            <label>Follow-up</label>
+                            <input name="follow_up" ng-model="vm.job.follow_up">
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <div>
+                            <label>Status</label>
+                            <input name="body_of_water" ng-model="vm.job.status">
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row" layout-align="center center" class="userFormBtn">
+                    <md-input-container>
+                        <md-button class="md-raised generalButton userInfoSubmit" ng-model="vm.job.resume" ng-click="vm.openPicker(images.url)">Upload Resume
+                        </md-button>
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised generalButton userInfoSubmit" ng-model="vm.job.cover_letter" ng-click="vm.openPicker(images.url)">Upload Cover Letter
+                        </md-button>
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="md-raised md-accent generalButton userInfoSubmit" ng-click="vm.addItem(vm.job)">Submit
+                        </md-button>
+                    </md-input-container>
+                </div>
+        </div>
+    </md-content>
+    <div class="grid catchTable table table-hover" layout="horizontal" layout-align="center center" ng-cloak class="md-inline-form"
+        layout-wrap>
+        <table id="catchTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Company</th>
+                    <th>Position</th>
+                    <th>Action</th>
+                    <th>Contact</th>
+                    <th>Email</th>
+                    <th>Follow-up</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <!-- <tbody ng-repeat="items in vm.items.list track by $index">
+                <tr class="catchTableRow">
+                    <td>{{items.date | date:'MM-dd-yyyy'}}</td>
+                    <td>{{items.company}}</td>
+                    <td>{{items.position}}</td>
+                    <td>{{items.action}}</td>
+                    <td>{{items.contact_name}}</td>
+                    <td>{{items.email}}</td>
+                    <td>{{items.follow_up}}</td>
+                    <td>{{items.status}}</td>
+                </tr>
+            </tbody> -->
+            <tbody>
+                <tr class="catchTableRow">
+                    <td>03/29/2018</td>
+                    <td>ICF Olson</td>
+                    <td>Backend Dev</td>
+                    <td>Phone Interview</td>
+                    <td>Ashley Allen</td>
+                    <td>Ashley.Allen@icfolson.com</td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <md-button class="md-raised md-primary" ng-click="vm.document(items)">Edit row</md-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
