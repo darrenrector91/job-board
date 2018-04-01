@@ -32,4 +32,13 @@ myApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
         }
       }
     })
+    .when('/jobs', {
+      templateUrl: '/views/templates/jobs.html',
+      controller: 'UserController as vm',
+      resolve: {
+        getuser: function (UserService) {
+          return UserService.getuser();
+        }
+      }
+    })
 }]);

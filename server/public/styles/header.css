@@ -1,13 +1,5 @@
 
-.header {
-    background-color: rgba(18, 18, 235, 0.283);
-    color: #DDDDDD;
-    box-shadow: 0 5px 5px rgb(71, 71, 71);
-    padding: 15px;
-}
-
 .loginHeader {
-    background-color: #0487D9;
     box-shadow: 5px 3px 9px #000;
     width: 100%;
 }

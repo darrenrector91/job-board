@@ -1,17 +1,37 @@
 myApp.controller('UserController', ['UserService', function (UserService) {
-  console.log('UserController created');
+  // console.log('UserController created');
   var self = this;
   self.userService = UserService;
   self.userObject = UserService.userObject;
+  self.status = {
+    list: []
+  };
+  self.getStatus = UserService.getStatus;
+  self.items = UserService.items;
+  // self.getJobs = UserService.getJobs;
+  self.items = {
+    list: []
+  };
+
+  console.log(self.items);
+
+  self.getJobs = function() {
+    UserService.getJobs();
+  };
 
   // uploading files using filestack
   self.openPicker = function (document) {
     UserService.openPicker(document);
   };
 
-  // finding body of water on map
   self.document = function (items) {
-    // const API = 'AIzaSyBm4aUk3dBt6BGPOdW3eqCB6njJPTH-f6s';
     UserService.document(items);
+  };
+
+  // Service to add item
+  self.addJob = function (data) {
+    UserService.addJob(data);
+    console.log(data);
+    self.job = '';
   };
 }]);

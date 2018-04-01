@@ -29,15 +29,14 @@ router.post('/register', (req, res, next) => {
     password: encryptLib.encryptPassword(req.body.password)
   };
   console.log('new user:', saveUser);
-  pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id',
-    [saveUser.username, saveUser.password], (err, result) => {
-      if (err) {
-        console.log("Error inserting data: ", err);
-        res.sendStatus(500);
-      } else {
-        res.sendStatus(201);
-      }
-    });
+  pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id', [saveUser.username, saveUser.password], (err, result) => {
+    if (err) {
+      console.log("Error inserting data: ", err);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(201);
+    }
+  });
 });
 
 // Handles login form authenticate/login POST
@@ -53,6 +52,97 @@ router.get('/logout', (req, res) => {
   // Use passport's built-in method to log out the user
   req.logout();
   res.sendStatus(200);
+});
+
+
+/***********************************
+****ADD ITEM TO JOBS TABLE****
+ ***********************************
+Insert catch data into table */
+router.post('/addJob', function (req, res) {
+  // console.log('in POST router');
+  if (req.isAuthenticated()) {
+    //add catch event to user data table
+    const queryText = `INSERT INTO jobs 
+    (date, 
+    company,
+    position,
+    contact,
+    email)
+    VALUES ($1, $2, $3, $4, $5)`;
+    pool.query(queryText, [
+        req.body.date,
+        req.body.company,
+        req.body.position,
+        req.body.contact,
+        req.body.email,
+      ])
+      .then((result) => {
+        console.log('result:', result);
+        console.log(req.user.id);
+        
+        res.send(result);
+      })
+      // erorr handling
+      .catch((err) => {
+        console.log('error:', err);
+        res.sendStatus(500);
+      });
+  } else {
+    // failure best handled on the server. do redirect here.
+    res.sendStatus(403);
+  }
+
+  /* GET Status */
+  router.get('/getStatus', function (req, res) {
+    console.log('in getStatus router');
+    const queryText = `SELECT name FROM status`;
+    pool.query(queryText)
+      .then((result) => {
+        console.log('status result:', result);
+
+        res.send(result.rows);
+
+      })
+      .catch((err) => {
+        console.log('Error getting status', err);
+        res.sendStatus(500);
+      })
+  });
+
+  /***********************************
+Get data from dB for jobs table
+ ********************************* */
+  router.get('/jobs', (req, res) => {
+    // query DB
+    if (req.isAuthenticated()) {
+      const queryText = 
+      `SELECT 
+      date,
+      company,
+      position,
+      contact,
+      email
+      FROM jobs 
+      JOIN
+      users on users.id = jobs.userid
+      WHERE users.id = $1;`;
+      pool.query(queryText, [req.user.id])
+        // runs on successful query
+        .then((result) => {
+          console.log('query results', result);
+          res.send(result.rows);
+        })
+        // error handling
+        .catch((err) => {
+          console.log('error making select query:', err);
+          res.sendStatus(500);
+        });
+    } else {
+      // failure best handled on the server. do redirect here.
+      res.sendStatus(403);
+    }
+  });
 });
 
 module.exports = router;

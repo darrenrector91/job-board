@@ -1,9 +1,8 @@
 <div ng-include="'views/partials/user.header.html'"></div>
 
 <div class="container">
-    <md-content layout-padding class="catchForm" layout-align="center center">
-        <div class="fishForm" ng-cloak class="md-inline-form" ng-mouseenter="formMessage=true" ng-mouseleave="formMessage=false"
-            layout-align="center center" md-no-flicker>
+    <md-content layout-padding class="jobForm" layout-align="center center">
+        <div class="fishForm" ng-cloak class="md-inline-form" layout-align="center center">
             <form layout-align="center center">
                 <div layout-gt-sm="row" layout-align="center center">
                     <md-input-container>
@@ -19,7 +18,7 @@
                     <md-input-container>
                         <div>
                             <label>Position</label>
-                            <input name="position" ng-model="vm.job.position" md-maxlength="2">
+                            <input name="position" ng-model="vm.job.position">
                         </div>
                     </md-input-container>
                 </div>
@@ -41,17 +40,16 @@
                             <input name="email" ng-model="vm.job.email">
                         </div>
                     </md-input-container>
-                    <md-input-container>
+                    <!-- <md-input-container>
                         <div>
                             <label>Follow-up</label>
                             <input name="follow_up" ng-model="vm.job.follow_up">
                         </div>
-                    </md-input-container>
+                    </md-input-container> -->
                     <md-input-container>
-                        <div>
-                            <label>Status</label>
-                            <input name="body_of_water" ng-model="vm.job.status">
-                        </div>
+                        <md-select ng-model="name" placeholder="Status">
+                            <md-option ng-value="{{status.name}}" ng-repeat="status in vm.getStatusName.list track by status.name">{{status.name}}</md-option>
+                        </md-select>
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout-align="center center" class="userFormBtn">
@@ -64,41 +62,37 @@
                         </md-button>
                     </md-input-container>
                     <md-input-container>
-                        <md-button class="md-raised md-accent generalButton userInfoSubmit" ng-click="vm.addItem(vm.job)">Submit
+                        <md-button class="md-raised md-accent generalButton userInfoSubmit" ng-click="vm.addJob(vm.job)">Submit
                         </md-button>
                     </md-input-container>
                 </div>
         </div>
     </md-content>
-    <div class="grid catchTable table table-hover" layout="horizontal" layout-align="center center" ng-cloak class="md-inline-form"
-        layout-wrap>
+    <div class="table table-hover" layout="horizontal" layout-align="center center" ng-cloak class="md-inline-form" layout-wrap>
         <table id="catchTable">
             <thead>
                 <tr>
                     <th>Date</th>
                     <th>Company</th>
                     <th>Position</th>
-                    <th>Action</th>
                     <th>Contact</th>
                     <th>Email</th>
-                    <th>Follow-up</th>
-                    <th>Status</th>
                     <th>Edit</th>
                 </tr>
             </thead>
-            <!-- <tbody ng-repeat="items in vm.items.list track by $index">
-                <tr class="catchTableRow">
+            <tbody>
+                <tr ng-repeat="items in vm.items.list">
                     <td>{{items.date | date:'MM-dd-yyyy'}}</td>
                     <td>{{items.company}}</td>
                     <td>{{items.position}}</td>
-                    <td>{{items.action}}</td>
                     <td>{{items.contact_name}}</td>
                     <td>{{items.email}}</td>
-                    <td>{{items.follow_up}}</td>
-                    <td>{{items.status}}</td>
+                    <td>
+                        <md-button class="md-raised md-primary" ng-click="vm.document({items})">Edit row</md-button>
+                    </td>
                 </tr>
-            </tbody> -->
-            <tbody>
+            </tbody>
+            <!-- <tbody>
                 <tr class="catchTableRow">
                     <td>03/29/2018</td>
                     <td>ICF Olson</td>
@@ -112,8 +106,7 @@
                         <md-button class="md-raised md-primary" ng-click="vm.document(items)">Edit row</md-button>
                     </td>
                 </tr>
-            </tbody>
+            </tbody> -->
         </table>
     </div>
 </div>
-
