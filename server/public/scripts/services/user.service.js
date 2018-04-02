@@ -116,7 +116,7 @@ myApp.service('UserService', ['$http', '$location', '$mdDialog', function ($http
   self.getStatus = function () {
     return $http.get('/user/getStatus')
       .then(function (response) {
-        console.log(response);
+        console.log(response.data);
         self.status.list = response.data;
       })
       .catch(function (error) {
