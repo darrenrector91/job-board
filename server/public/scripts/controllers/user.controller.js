@@ -3,20 +3,9 @@ myApp.controller('UserController', ['UserService', function (UserService) {
   var self = this;
   self.userService = UserService;
   self.userObject = UserService.userObject;
+  self.items = UserService.items;
   self.status = {
     list: []
-  };
-  self.getStatus = UserService.getStatus;
-  self.items = UserService.items;
-  // self.getJobs = UserService.getJobs;
-  self.items = {
-    list: []
-  };
-
-  console.log(self.items);
-
-  self.getJobs = function() {
-    UserService.getJobs();
   };
 
   // uploading files using filestack
@@ -28,10 +17,8 @@ myApp.controller('UserController', ['UserService', function (UserService) {
     UserService.document(items);
   };
 
-  // Service to add item
-  self.addJob = function (data) {
-    UserService.addJob(data);
-    console.log(data);
-    self.job = '';
+  // GET Status on page load
+  self.getStatus = function () {
+    UserService.getStatus();
   };
 }]);

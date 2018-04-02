@@ -87,7 +87,7 @@ li a:hover {
   display: inline;
 }
 
-#catchTable {
+#jobTable {
   font-family: 'Arimo', sans-serif;
   height: 200px;
   width: 100%;
@@ -101,18 +101,18 @@ li a:hover {
   /* margin: 20px; */
 }
 
-#catchTable td,
-#catchTable th {
+#jobTable td,
+#jobTable th {
   border: 1px solid #ddd;
   /* padding: 8px; */
   height: 10px;
 }
 
-#catchTable tr:nth-child(even) {
+#jobTable tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-#catchTable th {
+#jobTable th {
   padding: 20px;
   /* padding-bottom: 12px; */
   /* text-align: left; */

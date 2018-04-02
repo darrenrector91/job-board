@@ -80,7 +80,7 @@ router.post('/addJob', function (req, res) {
       .then((result) => {
         console.log('result:', result);
         console.log(req.user.id);
-        
+
         res.send(result);
       })
       // erorr handling
@@ -100,7 +100,6 @@ router.post('/addJob', function (req, res) {
     pool.query(queryText)
       .then((result) => {
         console.log('status result:', result);
-
         res.send(result.rows);
 
       })
@@ -110,39 +109,20 @@ router.post('/addJob', function (req, res) {
       })
   });
 
-  /***********************************
-Get data from dB for jobs table
- ********************************* */
-  router.get('/jobs', (req, res) => {
-    // query DB
-    if (req.isAuthenticated()) {
-      const queryText = 
-      `SELECT 
-      date,
-      company,
-      position,
-      contact,
-      email
-      FROM jobs 
-      JOIN
-      users on users.id = jobs.userid
-      WHERE users.id = $1;`;
-      pool.query(queryText, [req.user.id])
-        // runs on successful query
-        .then((result) => {
-          console.log('query results', result);
+  /* GET All Categories */
+router.get('/getStatus', (req, res) => {
+  console.log('in getStatus router');
+  
+  const CategoryQuery = `SELECT * FROM categories`;
+  pool.query(CategoryQuery)
+      .then((result) => {
           res.send(result.rows);
-        })
-        // error handling
-        .catch((err) => {
-          console.log('error making select query:', err);
+      })
+      .catch((err) => {
+             ('Error getting categories');
           res.sendStatus(500);
-        });
-    } else {
-      // failure best handled on the server. do redirect here.
-      res.sendStatus(403);
-    }
-  });
+      })
+});
 });
 
 module.exports = router;

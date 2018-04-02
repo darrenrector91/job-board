@@ -4,40 +4,49 @@ myApp.service('UserService', ['$http', '$location', '$mdDialog', function ($http
   self.userObject = {};
   var fsClient = filestack.init('AXWNQAQuJSmq8G5Dp0gIDz');
 
-  self.document = {list: []};
-  self.getStatusName = {list: []}
-  self.items = {list: []};
-  self.jobs = {list: []};
-
-  
-
+  self.document = {
+    list: []
+  };
+  self.status = {
+    list: []
+  }
+  self.editItems = {
+    list: []
+  };
+  self.items = {
+    list: []
+  };
+  self.jobs = {
+    list: []
+  };
 
   self.getuser = function () {
-      // console.log('UserService -- getuser');
-      $http.get('/api/user').then(function (response) {
-        if (response.data.username) {
-          // user has a curret session on the server
-          self.userObject.userName = response.data.username;
-          self.getJobs();
-          // console.log('UserService -- getuser -- User Data: ', self.userObject.userName);
-        } else {
-          console.log('UserService -- getuser -- failure');
-          // user has no session, bounce them back to the login page
-          $location.path("/home");
-        }
-      }, function (response) {
-        console.log('UserService -- getuser -- failure: ', response);
+    // console.log('UserService -- getuser');
+    $http.get('/api/user').then(function (response) {
+      if (response.data.username) {
+        // user has a curret session on the server
+        self.userObject.userName = response.data.username;
+        // self.getJobs();
+        self.getStatus();
+        // console.log('UserService -- getuser -- User Data: ', self.userObject.userName);
+      } else {
+        console.log('UserService -- getuser -- failure');
+        // user has no session, bounce them back to the login page
         $location.path("/home");
-      });
-    }
+      }
+    }, function (response) {
+      console.log('UserService -- getuser -- failure: ', response);
+      $location.path("/home");
+    });
+  }
 
-    self.logout = function () {
-      console.log('UserService -- logout');
-      $http.get('/api/user/logout').then(function (response) {
-        console.log('UserService -- logout -- logged out');
-        $location.path("/home");
-      });
-    }
+  self.logout = function () {
+    console.log('UserService -- logout');
+    $http.get('/api/user/logout').then(function (response) {
+      console.log('UserService -- logout -- logged out');
+      $location.path("/home");
+    });
+  }
 
   self.document = function (items, ev) {
     $mdDialog.show({
@@ -58,8 +67,8 @@ myApp.service('UserService', ['$http', '$location', '$mdDialog', function ($http
 
   function EditPostingModalController($mdDialog, item, UserService) {
     const self = this;
-    self.items = item;
-    console.log(self.items);
+    self.editItems = item;
+    console.log(self.editItems);
 
     self.closeModal = function () {
       self.hide();
@@ -104,30 +113,14 @@ myApp.service('UserService', ['$http', '$location', '$mdDialog', function ($http
       })
   } //end add item
 
-  // getting status for status dropdown
   self.getStatus = function () {
-    return $http.get('/api/user/getStatusName')
+    return $http.get('/user/getStatus')
       .then(function (response) {
-        self.getStatusName.list = response.data;
-        return response.data
-      })
-      .catch(function (response) {
-        console.log('error on get request', response);
-      });
-  } //end getting table data
-
-  // getting table data for user view table from jobs table in database
-  self.getJobs = function () {
-    return $http.get('/api/user/jobs')
-      .then(function (response) {
-        console.log('get jobs response: ', response);
-        self.jobs.list = response.data;
+        console.log(response);
+        self.status.list = response.data;
       })
       .catch(function (error) {
-        console.log('error on get request:', error);
-      });
-  } //end getting table data
-
-
-  
+        console.log('failed to get status', error);
+    });
+  }
 }]);

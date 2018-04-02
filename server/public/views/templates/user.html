@@ -40,15 +40,15 @@
                             <input name="email" ng-model="vm.job.email">
                         </div>
                     </md-input-container>
-                    <!-- <md-input-container>
+                    <md-input-container>
                         <div>
                             <label>Follow-up</label>
                             <input name="follow_up" ng-model="vm.job.follow_up">
                         </div>
-                    </md-input-container> -->
+                    </md-input-container>
                     <md-input-container>
                         <md-select ng-model="name" placeholder="Status">
-                            <md-option ng-value="{{status.name}}" ng-repeat="status in vm.getStatusName.list track by status.name">{{status.name}}</md-option>
+                            <md-option ng-repeat="status in vm.status.list track by status.name" ng-value="{{status.name}}">{{status.name}}</md-option>
                         </md-select>
                     </md-input-container>
                 </div>
@@ -69,7 +69,7 @@
         </div>
     </md-content>
     <div class="table table-hover" layout="horizontal" layout-align="center center" ng-cloak class="md-inline-form" layout-wrap>
-        <table id="catchTable">
+        <table id="jobTable">
             <thead>
                 <tr>
                     <th>Date</th>
@@ -80,8 +80,8 @@
                     <th>Edit</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr ng-repeat="items in vm.items.list">
+            <tbody ng-repeat="items in vm.items.list track by $index">
+                <tr class="jobTableRows">
                     <td>{{items.date | date:'MM-dd-yyyy'}}</td>
                     <td>{{items.company}}</td>
                     <td>{{items.position}}</td>
@@ -92,21 +92,6 @@
                     </td>
                 </tr>
             </tbody>
-            <!-- <tbody>
-                <tr class="catchTableRow">
-                    <td>03/29/2018</td>
-                    <td>ICF Olson</td>
-                    <td>Backend Dev</td>
-                    <td>Phone Interview</td>
-                    <td>Ashley Allen</td>
-                    <td>Ashley.Allen@icfolson.com</td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <md-button class="md-raised md-primary" ng-click="vm.document(items)">Edit row</md-button>
-                    </td>
-                </tr>
-            </tbody> -->
         </table>
     </div>
 </div>
